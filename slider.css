@@ -1,0 +1,22 @@
+.sliderContainer {
+    display:inline-block;
+    background-color:black;
+    height: 300px;
+    width: 400px;
+    margin-left: 10px;
+}
+.addRemoveButtons{
+    display:inline-block;
+    vertical-align: top;
+    padding-top: 100px;
+}
+svg{
+    height:100%;
+    width: 100%;
+}
+.breakeven{
+    cursor:col-resize;
+	stroke: green;
+	stroke-width: 3px;
+    height:100%;
+}
