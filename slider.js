@@ -24,7 +24,6 @@ var sliderAtBreakevenPoint = function(sliderId,breakEvenPoint,bLeft,bRight){
 	this.pathEl.id = 'breakeven'+ sliderId;
 	$(this.pathEl).attr('class','breakeven');
 	document.querySelector('svg').appendChild(this.pathEl);
-
 	this.defineNewBoundaries();
 
 	addEventsOnMouseLeave = function(e){
@@ -74,11 +73,11 @@ var sliderAtBreakevenPoint = function(sliderId,breakEvenPoint,bLeft,bRight){
 	sliderAtBreakevenPoint.prototype.moveElement = function() {
     	this.x_pos = this.left + document.all ? window.event.clientX : e.pageX ;
    		if (this.selected) {
-    		this.left = (this.x_pos - this.x_elem);
-    		if(this.left > this.boundary[0] && this.left < this.boundary[1]){
-    			this.pathEl.setAttribute('d','M '+this.left+' 10 L '+this.left+' 297');
+	    		this.left = (this.x_pos - this.x_elem);
+	    		if(this.left > this.boundary[0] && this.left < this.boundary[1]){
+	    			this.pathEl.setAttribute('d','M '+this.left+' 10 L '+this.left+' 297');
+	    		}
     		}
-    	}
 	}
 
 var flashFreeChart = function(){
