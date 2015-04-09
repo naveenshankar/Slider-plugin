@@ -121,6 +121,14 @@ flashFreeChart.prototype.removeSlider = function(){
 	}
 }
 
+flashFreeChart.prototype.removeAllSliders= function(){
+	this.sliders.forEach(function(value,index){
+			$(value.pathEl).remove();
+	});
+	this.sliders = [];
+	sliderAtBreakevenPoint.prototype.boundaries = [];
+}
+
 flashFreeChart.prototype.init = function(){
 		var that = this;
         console.log(that);
