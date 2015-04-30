@@ -1,6 +1,7 @@
-var sliderAtBreakevenPoint = function(sliderId,breakEvenPoint,bLeft,bRight){
-	this.left = breakEvenPoint ;
-	
+var sliderAtBreakevenPoint = function(sliderId,breakEvenLeftPos,bLeft,bRight){
+	this.left = breakEvenLeftPos ;
+	this.defaultLeft = breakEvenLeftPos;
+
 	if(this.boundaries.length > 1){
 		this.boundaries.pop();
 	}
@@ -15,6 +16,7 @@ var sliderAtBreakevenPoint = function(sliderId,breakEvenPoint,bLeft,bRight){
 	this.boundaries.push(bRight);
 	this.boundary = [];
 	this.boundaryIndex = 0;
+	this.leftChange = 0;
 	this.selected = false; // Object of the element to be moved
 	this.x_pos = 0;  // Stores x & y coordinates of the mouse pointer
 	this.x_elem = 0;  // Stores top, left values (edge) of the element
@@ -22,8 +24,16 @@ var sliderAtBreakevenPoint = function(sliderId,breakEvenPoint,bLeft,bRight){
 	this.pathEl.setAttribute('d','M '+this.left+' 10 L '+this.left+' 297');
 	this.id = sliderId;
 	this.pathEl.id = 'breakeven'+ sliderId;
-	$(this.pathEl).attr('class','breakeven');
+	this.pathEl.setAttribute("class",'breakeven');
 	document.querySelector('svg').appendChild(this.pathEl);
+
+	if(this.left < bLeft || this.left > bRight){
+		this.pathEl.style.display = 'none';
+	}
+	else{
+		this.pathEl.style.display = 'block';
+	}
+
 	this.defineNewBoundaries();
 
 	addEventsOnMouseLeave = function(e){
@@ -73,16 +83,16 @@ var sliderAtBreakevenPoint = function(sliderId,breakEvenPoint,bLeft,bRight){
 	sliderAtBreakevenPoint.prototype.moveElement = function() {
     	this.x_pos = this.left + document.all ? window.event.clientX : e.pageX ;
    		if (this.selected) {
-	    		this.left = (this.x_pos - this.x_elem);
-	    		if(this.left > this.boundary[0] && this.left < this.boundary[1]){
-	    			this.pathEl.setAttribute('d','M '+this.left+' 10 L '+this.left+' 297');
-	    		}
+    		this.left = (this.x_pos - this.x_elem);
+    		if(this.left > this.boundary[0] && this.left < this.boundary[1]){
+    			this.pathEl.setAttribute('d','M '+this.left+' 10 L '+this.left+' 297');
     		}
+    	}
 	}
 
 var flashFreeChart = function(){
-    this.sliders = [];
-    this.sliderId = 0;
+        this.sliders = [];
+        this.sliderId = 0;
 }
 
 flashFreeChart.prototype.addSlider = function(){
@@ -108,31 +118,22 @@ flashFreeChart.prototype.removeSlider = function(){
 				}
 			});
 
-			sliderAtBreakevenPoint.prototype.boundaries.forEach(function(value,index){
+		sliderAtBreakevenPoint.prototype.boundaries.forEach(function(value,index){
 					if(value == this.sliders[mainIndex].left){
 			 			this.sliders[mainIndex].boundaryIndex = index;
 					}
 			}.bind(this));
-
-			$(this.sliders[mainIndex].pathEl).remove();
-			sliderAtBreakevenPoint.prototype.boundaries.splice(this.sliders[mainIndex].boundaryIndex,1);
+            
+          document.querySelector('svg').removeChild(this.sliders[mainIndex].pathEl);
+                        sliderAtBreakevenPoint.prototype.boundaries.splice(this.sliders[mainIndex].boundaryIndex,1);
 			this.sliders.splice(mainIndex,1);
 	}
 }
 
-flashFreeChart.prototype.removeAllSliders= function(){
-	this.sliders.forEach(function(value,index){
-			$(value.pathEl).remove();
-	});
-	this.sliders = [];
-	sliderAtBreakevenPoint.prototype.boundaries = [];
-}
-
 flashFreeChart.prototype.init = function(){
-		var that = this;
-        console.log(that);
-		$('#addSlider').on('click',that.addSlider.bind(that));
-		$('#removeSlider').on('click',that.removeSlider.bind(that));
+	var that = this;
+        document.getElementById('addSlider').onclick = that.addSlider.bind(that);
+        document.getElementById('removeSlider').onclick = that.removeSlider.bind(that);
 };
 
 var newChart = new flashFreeChart();
